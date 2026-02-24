@@ -28,14 +28,14 @@ TERRAFORM_DIR="infra/terraform/envs/prod"
 if [[ -n "${1:-}" ]]; then
     VPS_IP="$1"
 else
-    if command -v terraform &> /dev/null && [[ -d "$TERRAFORM_DIR/.terraform" ]]; then
-        VPS_IP=$(cd "$TERRAFORM_DIR" && terraform output -raw server_ip 2>/dev/null) || {
-            echo "Error: Could not get VPS IP from terraform output."
+    if command -v tofu &> /dev/null && [[ -d "$TERRAFORM_DIR/.terraform" ]]; then
+        VPS_IP=$(cd "$TERRAFORM_DIR" && tofu output -raw server_ip 2>/dev/null) || {
+            echo "Error: Could not get VPS IP from tofu output."
             echo "Usage: $0 <VPS_IP>"
             exit 1
         }
     else
-        echo "Error: No VPS IP provided and terraform not available."
+        echo "Error: No VPS IP provided and tofu not available."
         echo "Usage: $0 <VPS_IP>"
         exit 1
     fi

@@ -2,7 +2,7 @@
 # =============================================================================
 # OpenClaw Bootstrap Script
 # =============================================================================
-# Purpose: Run once after terraform apply to set up OpenClaw on the VPS.
+# Purpose: Run once after tofu apply to set up OpenClaw on the VPS.
 # Usage: ./deploy/bootstrap.sh [VPS_IP]
 #
 # This script:
@@ -60,15 +60,15 @@ fi
 if [[ -n "${1:-}" ]]; then
     VPS_IP="$1"
 else
-    # Try to get IP from terraform output
-    if command -v terraform &> /dev/null && [[ -d "$TERRAFORM_DIR/.terraform" ]]; then
-        VPS_IP=$(cd "$TERRAFORM_DIR" && terraform output -raw server_ip 2>/dev/null) || {
-            echo "Error: Could not get VPS IP from terraform output."
+    # Try to get IP from tofu output
+    if command -v tofu &> /dev/null && [[ -d "$TERRAFORM_DIR/.terraform" ]]; then
+        VPS_IP=$(cd "$TERRAFORM_DIR" && tofu output -raw server_ip 2>/dev/null) || {
+            echo "Error: Could not get VPS IP from tofu output."
             echo "Usage: $0 <VPS_IP>"
             exit 1
         }
     else
-        echo "Error: No VPS IP provided and terraform not available."
+        echo "Error: No VPS IP provided and tofu not available."
         echo "Usage: $0 <VPS_IP>"
         exit 1
     fi
@@ -87,7 +87,7 @@ echo "Verifying SSH connectivity..."
 if ! ssh $SSH_OPTS "$VPS_USER@$VPS_IP" "echo 'SSH connection successful'" 2>/dev/null; then
     echo "Error: Cannot connect to $VPS_USER@$VPS_IP"
     echo "Make sure:"
-    echo "  1. The VPS is running (check: terraform output)"
+    echo "  1. The VPS is running (check: tofu output)"
     echo "  2. Cloud-init has completed (wait a few minutes after apply)"
     echo "  3. Your SSH key is correct"
     exit 1

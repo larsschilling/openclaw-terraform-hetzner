@@ -47,14 +47,14 @@ VPS_IP="${2:-}"
 # -----------------------------------------------------------------------------
 
 if [[ -z "$VPS_IP" ]]; then
-    if command -v terraform &> /dev/null && [[ -d "$TERRAFORM_DIR/.terraform" ]]; then
-        VPS_IP=$(cd "$TERRAFORM_DIR" && terraform output -raw server_ip 2>/dev/null) || {
-            echo "Error: Could not get VPS IP from terraform output."
+    if command -v tofu &> /dev/null && [[ -d "$TERRAFORM_DIR/.terraform" ]]; then
+        VPS_IP=$(cd "$TERRAFORM_DIR" && tofu output -raw server_ip 2>/dev/null) || {
+            echo "Error: Could not get VPS IP from tofu output."
             echo "Usage: $0 <backup_filename> <VPS_IP>"
             exit 1
         }
     else
-        echo "Error: No VPS IP provided and terraform not available."
+        echo "Error: No VPS IP provided and tofu not available."
         echo "Usage: $0 <backup_filename> <VPS_IP>"
         exit 1
     fi
