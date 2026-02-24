@@ -1,4 +1,4 @@
-# Contributing to OpenClaw Terraform Hetzner
+# Contributing to OpenClaw OpenTofu Hetzner
 
 Thank you for your interest in contributing! This document provides guidelines for contributing to this project.
 
@@ -64,9 +64,9 @@ make plan
 
 ### Code Style
 
-**Terraform:**
-- Use `terraform fmt` for formatting
-- Follow [HashiCorp Style Guide](https://developer.hashicorp.com/terraform/language/style)
+**OpenTofu/HCL:**
+- Use `tofu fmt` for formatting
+- Follow [OpenTofu Style Guide](https://opentofu.org/docs/language/style/)
 - Use descriptive resource names
 - Add descriptions to all variables and outputs
 
@@ -82,7 +82,7 @@ Before submitting a pull request:
 
 1. **Syntax validation:**
    ```bash
-   terraform fmt -check -recursive
+   tofu fmt -check -recursive
    shellcheck scripts/*.sh deploy/*.sh
    ```
 
@@ -100,7 +100,7 @@ Before submitting a pull request:
 
 ```
 .
-├── infra/terraform/      # Terraform configuration
+├── infra/terraform/      # OpenTofu configuration
 │   ├── globals/          # Shared configuration
 │   ├── envs/prod/        # Production environment
 │   └── modules/          # Reusable modules

@@ -1,15 +1,15 @@
-# OpenClaw Terraform Hetzner
+# OpenClaw OpenTofu Hetzner
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Terraform](https://img.shields.io/badge/Terraform-1.5+-purple.svg)](https://www.terraform.io/)
+[![OpenTofu](https://img.shields.io/badge/OpenTofu-1.8+-blue.svg)](https://opentofu.org/)
 
-Terraform modules for deploying [OpenClaw](https://github.com/openclaw/openclaw) on Hetzner Cloud. Includes VPS provisioning, firewall configuration, cloud-init automation, and deployment tooling.
+OpenTofu modules for deploying [OpenClaw](https://github.com/openclaw/openclaw) on Hetzner Cloud. Includes VPS provisioning, firewall configuration, cloud-init automation, and deployment tooling.
 
 ## Overview
 
 This repository provides infrastructure-as-code for deploying OpenClaw—an open-source AI coding assistant—on a Hetzner Cloud VPS. The setup includes:
 
-- Modular Terraform structure with remote S3 state backend
+- Modular OpenTofu structure with remote S3 state backend
 - Automated server provisioning via cloud-init
 - Firewall configuration (UFW + Hetzner Cloud Firewall)
 - Deployment scripts for application lifecycle management
@@ -20,9 +20,9 @@ For information about OpenClaw itself, see the [OpenClaw documentation](https://
 
 ## Prerequisites
 
-1. **Terraform** >= 1.5 ([Installation Guide](https://developer.hashicorp.com/terraform/install))
+1. **OpenTofu** >= 1.8 ([Installation Guide](https://opentofu.org/docs/intro/install/))
 2. **Hetzner Cloud Account** with API token ([Console](https://console.hetzner.cloud/))
-3. **Hetzner Object Storage** for Terraform state (optional but recommended)
+3. **Hetzner Object Storage** for OpenTofu state (optional but recommended)
 4. **SSH Key** at `~/.ssh/id_rsa.pub`
 5. **Docker configuration repo**: [openclaw-docker-config](https://github.com/andreesg/openclaw-docker-config)
 
@@ -49,6 +49,15 @@ Required variables in `config/inputs.sh`:
 
 ### 3. Deploy Infrastructure
 
+First, ensure OpenTofu is installed:
+```bash
+# macOS with Homebrew
+brew install opentofu
+
+# Or visit https://opentofu.org/docs/intro/install/ for other platforms
+```
+
+Then deploy:
 ```bash
 source config/inputs.sh
 make init
@@ -82,7 +91,7 @@ make tunnel  # Opens tunnel on localhost:18789
 │   Your Laptop   │
 │                 │
 │  ┌───────────┐  │         ┌─────────────────────┐
-│  │ Terraform │──┼────────>│  Hetzner Cloud VPS  │
+│  │ OpenTofu  │──┼────────>│  Hetzner Cloud VPS  │
 │  └───────────┘  │         │                     │
 │                 │         │  ┌──────────────┐   │
 │  ┌───────────┐  │         │  │ Docker       │   │
@@ -90,13 +99,13 @@ make tunnel  # Opens tunnel on localhost:18789
 │  │   Repo    │  │         │  └──────────────┘   │
 │  └───────────┘  │         │                     │
 └─────────────────┘         │  Firewall: SSH only │
-                            └─────────────────────┘
-                                      │
-                                      v
-                            ┌─────────────────────┐
-                            │ Hetzner Object      │
-                            │ Storage (state)     │
-                            └─────────────────────┘
+                             └─────────────────────┘
+                                       │
+                                       v
+                             ┌─────────────────────┐
+                             │ Hetzner Object      │
+                             │ Storage (state)     │
+                             └─────────────────────┘
 ```
 
 ### Components
@@ -302,7 +311,7 @@ Then open `http://localhost:18789` in your browser. The gateway will ask for you
 
 ## Troubleshooting
 
-### Terraform Init Fails
+### OpenTofu Init Fails
 
 **Cause:** S3 backend credentials not set
 
@@ -425,7 +434,7 @@ cat ~/.openclaw/agents/main/agent/auth-profiles.json
 
 ### Updates
 
-- Keep Terraform providers updated
+- Keep OpenTofu and providers updated
 - Update OpenClaw regularly for security patches
 - Monitor security advisories for dependencies
 - Review cloud-init script before changes

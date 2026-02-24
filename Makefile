@@ -1,5 +1,5 @@
 # =============================================================================
-# OpenClaw Infrastructure Makefile
+# OpenClaw Infrastructure Makefile (OpenTofu)
 # =============================================================================
 # Usage: make <target> [ENV=prod]
 
@@ -13,10 +13,10 @@ SHELL := /bin/bash
 
 # Default values
 ENV ?= prod
-TERRAFORM_DIR := infra/terraform/envs/$(ENV)
+TOFU_DIR := infra/terraform/envs/$(ENV)
 
-# Server IP - can be overridden or read from Terraform
-SERVER_IP ?= $(shell cd $(TERRAFORM_DIR) && terraform output -raw server_ip 2>/dev/null)
+# Server IP - can be overridden or read from OpenTofu
+SERVER_IP ?= $(shell cd $(TOFU_DIR) && tofu output -raw server_ip 2>/dev/null)
 
 # Colors
 GREEN  := \033[0;32m
@@ -27,32 +27,32 @@ BOLD   := \033[1m
 NC     := \033[0m
 
 # =============================================================================
-# Terraform Commands
+# OpenTofu Commands
 # =============================================================================
 
-init: ## Initialize Terraform backend
-	@echo -e "$(GREEN)[INFO]$(NC) Initializing Terraform for $(ENV)..."
-	@cd $(TERRAFORM_DIR) && terraform init
+init: ## Initialize OpenTofu backend
+	@echo -e "$(GREEN)[INFO]$(NC) Initializing OpenTofu for $(ENV)..."
+	@cd $(TOFU_DIR) && tofu init
 
-plan: ## Preview Terraform changes
-	@echo -e "$(GREEN)[INFO]$(NC) Planning Terraform changes for $(ENV)..."
-	@cd $(TERRAFORM_DIR) && terraform plan
+plan: ## Preview OpenTofu changes
+	@echo -e "$(GREEN)[INFO]$(NC) Planning OpenTofu changes for $(ENV)..."
+	@cd $(TOFU_DIR) && tofu plan
 
-apply: ## Apply Terraform changes
+apply: ## Apply OpenTofu changes
 	@echo -e "$(YELLOW)[WARN]$(NC) This will modify infrastructure for $(ENV)"
-	@cd $(TERRAFORM_DIR) && terraform apply
+	@cd $(TOFU_DIR) && tofu apply
 
 destroy: ## Destroy all managed infrastructure
 	@echo -e "$(RED)[DANGER]$(NC) This will DESTROY all infrastructure for $(ENV)!"
-	@cd $(TERRAFORM_DIR) && terraform destroy
+	@cd $(TOFU_DIR) && tofu destroy
 
-fmt: ## Format Terraform files
-	@echo -e "$(GREEN)[INFO]$(NC) Formatting Terraform files..."
-	@terraform fmt -recursive infra/
+fmt: ## Format OpenTofu files
+	@echo -e "$(GREEN)[INFO]$(NC) Formatting OpenTofu files..."
+	@tofu fmt -recursive infra/
 
-validate: ## Validate Terraform configuration
-	@echo -e "$(GREEN)[INFO]$(NC) Validating Terraform..."
-	@cd $(TERRAFORM_DIR) && terraform init -backend=false -input=false > /dev/null 2>&1 && terraform validate
+validate: ## Validate OpenTofu configuration
+	@echo -e "$(GREEN)[INFO]$(NC) Validating OpenTofu..."
+	@cd $(TOFU_DIR) && tofu init -backend=false -input=false > /dev/null 2>&1 && tofu validate
 	@echo ""
 	@echo -e "$(GREEN)[INFO]$(NC) Validating shell scripts..."
 	@for script in deploy/*.sh scripts/*.sh; do bash -n "$$script" && echo "  $$script: OK"; done
@@ -78,15 +78,15 @@ tunnel: ## Open SSH tunnel to OpenClaw gateway (localhost:18789)
 	@echo ""
 	@ssh -N -L 18789:127.0.0.1:18789 openclaw@$(SERVER_IP)
 
-output: ## Show all Terraform outputs
-	@cd $(TERRAFORM_DIR) && terraform output
+output: ## Show all OpenTofu outputs
+	@cd $(TOFU_DIR) && tofu output
 
 ip: ## Show server IP address
-	@cd $(TERRAFORM_DIR) && terraform output -raw server_ip
+	@cd $(TOFU_DIR) && tofu output -raw server_ip
 
-clean: ## Clean up Terraform files (keeps state)
-	rm -rf $(TERRAFORM_DIR)/.terraform/
-	rm -f $(TERRAFORM_DIR)/.terraform.lock.hcl
+clean: ## Clean up OpenTofu files (keeps state)
+	rm -rf $(TOFU_DIR)/.terraform/
+	rm -f $(TOFU_DIR)/.terraform.lock.hcl
 
 # =============================================================================
 # Deploy Commands
@@ -147,17 +147,17 @@ workspace-sync: ## Sync workspace to GitHub now
 # =============================================================================
 
 help: ## Show this help message
-	@echo -e "$(BOLD)OpenClaw Infrastructure$(NC)"
+	@echo -e "$(BOLD)OpenClaw Infrastructure (OpenTofu)$(NC)"
 	@echo ""
 	@echo -e "Usage: make <target> [ENV=prod]"
 	@echo ""
-	@echo -e "$(BOLD)Terraform:$(NC)"
-	@echo -e "  $(GREEN)init$(NC)            Initialize Terraform backend"
-	@echo -e "  $(GREEN)plan$(NC)            Preview Terraform changes"
-	@echo -e "  $(YELLOW)apply$(NC)           Apply Terraform changes"
+	@echo -e "$(BOLD)OpenTofu:$(NC)"
+	@echo -e "  $(GREEN)init$(NC)            Initialize OpenTofu backend"
+	@echo -e "  $(GREEN)plan$(NC)            Preview OpenTofu changes"
+	@echo -e "  $(YELLOW)apply$(NC)           Apply OpenTofu changes"
 	@echo -e "  $(RED)destroy$(NC)         Destroy all managed infrastructure"
-	@echo -e "  $(GREEN)fmt$(NC)             Format Terraform files"
-	@echo -e "  $(GREEN)validate$(NC)        Validate Terraform configuration"
+	@echo -e "  $(GREEN)fmt$(NC)             Format OpenTofu files"
+	@echo -e "  $(GREEN)validate$(NC)        Validate OpenTofu configuration"
 	@echo ""
 	@echo -e "$(BOLD)Deploy:$(NC)"
 	@echo -e "  $(BLUE)bootstrap$(NC)       Bootstrap OpenClaw on the VPS (run once)"
@@ -179,6 +179,7 @@ help: ## Show this help message
 	@echo -e "  $(GREEN)ip$(NC)              Show server IP"
 	@echo ""
 	@echo -e "$(BOLD)Quick Start:$(NC)"
+	@echo "  # Install OpenTofu: https://opentofu.org/docs/intro/install/"
 	@echo "  source config/inputs.sh"
 	@echo "  make init && make plan && make apply"
 	@echo "  make bootstrap && make deploy"

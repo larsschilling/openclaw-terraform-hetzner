@@ -4,7 +4,7 @@
 # Each environment's main.tf declares its own required_providers block.
 
 terraform {
-  required_version = ">= 1.5"
+  required_version = ">= 1.8"
 
   required_providers {
     hcloud = {
