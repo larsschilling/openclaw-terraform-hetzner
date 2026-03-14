@@ -1,9 +1,12 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>larsschilling/openclaw-renovate-config",
+    "config:recommended",
     ":semanticCommitTypeAll(chore)"
   ],
+  "dependencyDashboard": true,
+  "automerge": true,
+  "pruneBranchAfterAutomerge": true,
   "labels": ["dependencies"],
   "prHourlyLimit": 4,
   "prConcurrentLimit": 10,
@@ -32,6 +35,10 @@
       "automerge": true,
       "automergeType": "pr",
       "platformAutomerge": true
+    },
+    {
+      "matchCategories": ["terraform"],
+      "addLabels": ["terraform"]
     }
   ],
   "terraform": {
