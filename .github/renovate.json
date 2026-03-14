@@ -1,5 +1,9 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "force": {
+    "mode": "full"
+  },
+
   "extends": [
     "config:recommended",
     ":semanticCommitTypeAll(chore)"
