@@ -1,0 +1,41 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>larsschilling/openclaw-renovate-config",
+    ":semanticCommitTypeAll(chore)"
+  ],
+  "labels": ["dependencies"],
+  "prHourlyLimit": 4,
+  "prConcurrentLimit": 10,
+  "timezone": "Europe/Berlin",
+  "schedule": ["before 9am on monday"],
+  "gitAuthor": "Renovate Bot <renovate@opencoda.ai>",
+  "packageRules": [
+    {
+      "groupName": "terraform provider hetznercloud/hcloud",
+      "matchPackageNames": ["hetznercloud/hcloud"],
+      "matchDatasources": ["terraform-provider"],
+      "allowedVersions": "/^~> 1\\./"
+    },
+    {
+      "groupName": "github actions",
+      "matchManagers": ["github-actions"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    },
+    {
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-minor-patch",
+      "matchPackagePatterns": ["*"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    }
+  ],
+  "terraform": {
+    "enabled": true,
+    "fileMatch": ["^infra/terraform/.*\\.tf$"]
+  }
+}
