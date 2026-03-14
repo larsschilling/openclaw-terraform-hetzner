@@ -6,6 +6,10 @@
   ],
   "dependencyDashboard": true,
   "automerge": true,
+  "branchPrefix": "renovate-updates/",
+  "recreateWhen": "always",
+  "rebaseWhen": "behind-base-branch",
+
   "pruneBranchAfterAutomerge": true,
   "labels": ["dependencies"],
   "prHourlyLimit": 4,
@@ -24,6 +28,13 @@
       "groupName": "github actions",
       "matchManagers": ["github-actions"],
       "automerge": true,
+      "branchPrefix": "renovate-updates/",
+      "recreateWhen": "always",
+      "rebaseWhen": "behind-base-branch",
+  "branchPrefix": "renovate-updates/",
+  "recreateWhen": "always",
+  "rebaseWhen": "behind-base-branch",
+
       "automergeType": "pr",
       "platformAutomerge": true
     },
@@ -33,6 +44,13 @@
       "matchPackagePatterns": ["*"],
       "matchUpdateTypes": ["minor", "patch"],
       "automerge": true,
+      "branchPrefix": "renovate-updates/",
+      "recreateWhen": "always",
+      "rebaseWhen": "behind-base-branch",
+  "branchPrefix": "renovate-updates/",
+  "recreateWhen": "always",
+  "rebaseWhen": "behind-base-branch",
+
       "automergeType": "pr",
       "platformAutomerge": true
     },
