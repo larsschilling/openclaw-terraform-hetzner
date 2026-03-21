@@ -1,0 +1,23 @@
+name: Merge Queue Checks
+
+on:
+  merge_group:
+    types: [checks_requested]
+
+# Limit permissions for security
+permissions:
+  contents: read
+
+jobs:
+  # Reuse existing workflow for efficiency
+  terraform-checks:
+    uses: ./.github/workflows/terraform.yml
+    permissions:
+      contents: read
+      pull-requests: write
+
+  shellcheck-checks:
+    uses: ./.github/workflows/shellcheck.yml
+    permissions:
+      contents: read
+      pull-requests: write

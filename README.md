@@ -483,6 +483,49 @@ Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for gui
 - Submit pull requests
 - Share your deployment experiences
 
+## Repository Configuration
+
+### Branch Protection Rules
+
+This repository is configured with the following branch protection rules for `main`:
+
+- **Require pull request reviews**: 1 approving review required
+- **Require status checks**: All CI checks must pass (Terraform CI, ShellCheck)
+- **Require branches to be up to date**: Must be up to date with base branch
+- **Require conversation resolution**: All comments must be resolved
+- **Restrict force pushes**: Force pushes are disabled
+- **Restrict deletions**: Branch deletion is restricted
+
+### Code Owners
+
+This repository uses CODEOWNERS to automatically request reviews:
+
+- **All files**: @larsschilling
+- **Infrastructure code** (`infra/`): Requires approval
+- **GitHub configuration** (`.github/`): Requires approval
+- **Deployment scripts** (`deploy/`, `scripts/`): Requires approval
+
+### Merge Queue
+
+This repository uses GitHub's Merge Queue feature to:
+- Ensure all tests pass before merging
+- Prevent merge conflicts
+- Maintain a linear history
+
+### Renovate Dependency Management
+
+This repository uses Renovate for automated dependency updates:
+
+- **Schedule**: Updates are checked continuously (no schedule restriction)
+- **Automerge**: Minor and patch updates are automerged
+- **Dependency Dashboard**: Available in GitHub Issues
+- **Grouped Updates**: Similar dependencies are grouped together
+
+To manually trigger Renovate:
+1. Go to the Dependency Dashboard issue
+2. Check the "Trigger Renovate" checkbox
+3. Renovate will create/update PRs within minutes
+
 ## Related Projects
 
 - **[OpenClaw](https://github.com/openclaw/openclaw)** — The AI coding assistant this infrastructure deploys

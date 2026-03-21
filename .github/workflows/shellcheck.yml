@@ -6,22 +6,32 @@ on:
   push:
     branches: [main]
 
+# Limit permissions for security
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   shellcheck:
     name: Lint Shell Scripts
     runs-on: ubuntu-latest
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Run ShellCheck on deploy scripts
-        uses: ludeeus/action-shellcheck@master
+        uses: ludeeus/action-shellcheck@00b27aa7cb85167568cb48a3838b75f4265f2bca # master
         with:
           scandir: './deploy'
           severity: warning
 
       - name: Run ShellCheck on utility scripts
-        uses: ludeeus/action-shellcheck@master
+        uses: ludeeus/action-shellcheck@00b27aa7cb85167568cb48a3838b75f4265f2bca # master
         with:
           scandir: './scripts'
           severity: warning

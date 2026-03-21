@@ -1,0 +1,13 @@
+# CODEOWNERS - Define code ownership
+# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owners for everything in the repo
+* @larsschilling
+
+# Infrastructure code requires approval
+infra/terraform/ @larsschilling
+.github/ @larsschilling
+
+# Deployment scripts require approval
+deploy/ @larsschilling
+scripts/ @larsschilling
