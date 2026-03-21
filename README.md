@@ -31,7 +31,7 @@ For information about OpenClaw itself, see the [OpenClaw documentation](https://
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/andreesg/openclaw-terraform-hetzner.git
+git clone https://github.com/larsschilling/openclaw-terraform-hetzner.git
 cd openclaw-terraform-hetzner
 ```
 
@@ -477,7 +477,7 @@ See [Hetzner Cloud pricing](https://www.hetzner.com/cloud#pricing) for current r
 Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 **Ways to contribute:**
-- Report bugs via [GitHub Issues](https://github.com/andreesg/openclaw-terraform-hetzner/issues)
+- Report bugs via [GitHub Issues](https://github.com/larsschilling/openclaw-terraform-hetzner/issues)
 - Submit feature requests
 - Improve documentation
 - Submit pull requests
@@ -536,6 +536,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Support
 
-- **Issues:** [GitHub Issues](https://github.com/andreesg/openclaw-terraform-hetzner/issues)
-- **Discussions:** [GitHub Discussions](https://github.com/andreesg/openclaw-terraform-hetzner/discussions)
+- **Issues:** [GitHub Issues](https://github.com/larsschilling/openclaw-terraform-hetzner/issues)
+- **Discussions:** [GitHub Discussions](https://github.com/larsschilling/openclaw-terraform-hetzner/discussions)
 - **OpenClaw Docs:** [docs.openclaw.ai](https://docs.openclaw.ai/)
