@@ -505,12 +505,11 @@ This repository uses CODEOWNERS to automatically request reviews:
 - **GitHub configuration** (`.github/`): Requires approval
 - **Deployment scripts** (`deploy/`, `scripts/`): Requires approval
 
-### Merge Queue
+### Required Status Checks
 
-This repository uses GitHub's Merge Queue feature to:
-- Ensure all tests pass before merging
-- Prevent merge conflicts
-- Maintain a linear history
+This repository requires all CI checks to pass before merging:
+- Terraform CI (format, validate, module validation)
+- ShellCheck (shell script linting)
 
 ### Renovate Dependency Management
 
