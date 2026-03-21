@@ -1,17 +1,16 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-
   "forkProcessing": "enabled",
-
   "extends": [
     "config:recommended",
     ":semanticCommitTypeAll(chore)"
   ],
   "dependencyDashboard": true,
   "automerge": true,
-
   "pruneBranchAfterAutomerge": true,
-  "labels": ["dependencies"],
+  "labels": [
+    "dependencies"
+  ],
   "prHourlyLimit": 4,
   "prConcurrentLimit": 10,
   "timezone": "Europe/Berlin",
@@ -19,35 +18,50 @@
   "packageRules": [
     {
       "groupName": "terraform provider hetznercloud/hcloud",
-      "matchPackageNames": ["hetznercloud/hcloud"],
-      "matchDatasources": ["terraform-provider"],
+      "matchPackageNames": [
+        "hetznercloud/hcloud"
+      ],
+      "matchDatasources": [
+        "terraform-provider"
+      ],
       "allowedVersions": "/^~> 1\\./"
     },
     {
       "groupName": "github actions",
-      "matchManagers": ["github-actions"],
+      "matchManagers": [
+        "github-actions"
+      ],
       "automerge": true,
-
       "automergeType": "pr",
       "platformAutomerge": true
     },
     {
       "groupName": "all non-major dependencies",
       "groupSlug": "all-minor-patch",
-      "matchPackagePatterns": ["*"],
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "automerge": true,
-
       "automergeType": "pr",
-      "platformAutomerge": true
+      "platformAutomerge": true,
+      "matchPackageNames": [
+        "*"
+      ]
     },
     {
-      "matchCategories": ["terraform"],
-      "addLabels": ["terraform"]
+      "matchCategories": [
+        "terraform"
+      ],
+      "addLabels": [
+        "terraform"
+      ]
     }
   ],
   "terraform": {
     "enabled": true,
-    "managerFilePatterns": ["^infra/terraform/.*\\.tf$"]
+    "managerFilePatterns": [
+      "^infra/terraform/.*\\.tf$"
+    ]
   }
 }
