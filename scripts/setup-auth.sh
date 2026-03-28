@@ -74,7 +74,9 @@ echo ""
 # Push setup token to VPS
 # -----------------------------------------------------------------------------
 
+# shellcheck disable=SC2034
 AUTH_DIR="\$HOME/.openclaw/agents/main/agent"
+# shellcheck disable=SC2034
 AUTH_FILE="\$HOME/.openclaw/agents/main/agent/auth-profiles.json"
 
 echo "[...] Writing auth profile to VPS..."
