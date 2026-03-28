@@ -91,7 +91,7 @@ fi
 # Enable workspace sync profile if GIT_WORKSPACE_REPO or GIT_WORKSPACE_REMOTE is configured
 PROFILES=""
 SYNC_ENABLED=false
-if [[ -f .env ]] && grep -qE '^(GIT_WORKSPACE_REPO|GIT_WORKSPACE_REMOTE)=.+' .env; then
+if [[ -f .env ]] && grep -qE '^GIT_WORKSPACE_(REPO|REMOTE)(_[A-Z]+)?=.+' .env; then
     PROFILES="--profile sync"
     SYNC_ENABLED=true
 fi
