@@ -79,7 +79,7 @@ AUTH_FILE="\$HOME/.openclaw/agents/main/agent/auth-profiles.json"
 
 echo "[...] Writing auth profile to VPS..."
 
-ssh $SSH_OPTS "$VPS_USER@$VPS_IP" bash -s <<REMOTE_SCRIPT
+ssh $SSH_OPTS "$VPS_USER@$VPS_IP" bash -s << "REMOTE_SCRIPT"
 set -euo pipefail
 mkdir -p "$AUTH_DIR"
 cat > "$AUTH_FILE" << 'AUTHEOF'
