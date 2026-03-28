@@ -210,6 +210,14 @@ echo "[OK] Backup timer configured (daily at 3 AM)"
 REMOTE_SCRIPT
 
 # -----------------------------------------------------------------------------
+# Set up automated security updates
+# -----------------------------------------------------------------------------
+
+echo ""
+echo "Setting up automated security updates..."
+./deploy/setup-auto-updates.sh "$VPS_IP"
+
+# -----------------------------------------------------------------------------
 # Push .env secrets to VPS
 # -----------------------------------------------------------------------------
 
