@@ -149,8 +149,26 @@ echo "Adjusting systemd timer..."
 ssh $SSH_OPTS "$VPS_USER@$VPS_IP" sudo bash -s << 'REMOTE_SCRIPT'
 set -euo pipefail
 
+# Create systemd timer if it doesn't exist
+if ! systemctl list-unit-files | grep -q unattended-upgrades.timer; then
+    echo "Creating unattended-upgrades.timer..."
+    cat > /etc/systemd/system/unattended-upgrades.timer << 'EOF'
+[Unit]
+Description=Unattended Upgrades Timer
+
+[Timer]
+OnCalendar=*-*-* 01:30:00
+RandomizedDelaySec=900
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+EOF
+    systemctl daemon-reload
+fi
+
 # Create override directory
-mkdir -p /etc/systemd/system/unattended-upgrades.service.d
+mkdir -p /etc/systemd/system/unattended-upgrades.timer.d
 
 # Create timer override to run at 01:30 AM
 cat > /etc/systemd/system/unattended-upgrades.timer.d/override.conf << 'EOF'
@@ -178,8 +196,15 @@ set -euo pipefail
 # Enable and start services
 systemctl enable unattended-upgrades
 systemctl start unattended-upgrades
-systemctl enable unattended-upgrades.timer
-systemctl start unattended-upgrades.timer
+
+# Enable and start timer if it exists
+if systemctl list-unit-files | grep -q unattended-upgrades.timer; then
+    systemctl enable unattended-upgrades.timer
+    systemctl start unattended-upgrades.timer
+    echo "[OK] unattended-upgrades timer enabled and started"
+else
+    echo "[WARN] unattended-upgrades.timer not found, skipping"
+fi
 
 # Verify timer is active
 if systemctl is-active unattended-upgrades.timer >/dev/null 2>&1; then

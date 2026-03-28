@@ -118,9 +118,29 @@ APT::Periodic::AutocleanInterval "7";
 APT::Periodic::RandomizedDelaySec "900";
 EOF
 
-# Create systemd timer override
+# Create systemd timer if it doesn't exist
 echo "Adjusting systemd timer..."
+if ! systemctl list-unit-files | grep -q unattended-upgrades.timer; then
+    echo "Creating unattended-upgrades.timer..."
+    cat > /etc/systemd/system/unattended-upgrades.timer << 'EOF'
+[Unit]
+Description=Unattended Upgrades Timer
+
+[Timer]
+OnCalendar=*-*-* 01:30:00
+RandomizedDelaySec=900
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+EOF
+    systemctl daemon-reload
+fi
+
+# Create override directory
 mkdir -p /etc/systemd/system/unattended-upgrades.timer.d
+
+# Create timer override to run at 01:30 AM
 cat > /etc/systemd/system/unattended-upgrades.timer.d/override.conf << 'EOF'
 [Timer]
 OnCalendar=*-*-* 01:30:00
@@ -135,8 +155,15 @@ systemctl daemon-reload
 echo "Enabling services..."
 systemctl enable unattended-upgrades
 systemctl start unattended-upgrades
-systemctl enable unattended-upgrades.timer
-systemctl start unattended-upgrades.timer
+
+# Enable and start timer if it exists
+if systemctl list-unit-files | grep -q unattended-upgrades.timer; then
+    systemctl enable unattended-upgrades.timer
+    systemctl start unattended-upgrades.timer
+    echo "[OK] unattended-upgrades timer enabled and started"
+else
+    echo "[WARN] unattended-upgrades.timer not found, skipping"
+fi
 
 # Create log directory
 mkdir -p /var/log/unattended-upgrades
